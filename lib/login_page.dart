@@ -1,6 +1,7 @@
-import 'package:bmi_calculator/bmi_page.dart';
+import 'package:bmi_calculator_provider/bmi_page.dart';
+import 'package:bmi_calculator_provider/componants/my_textfield.dart';
+import 'package:bmi_calculator_provider/signup_page.dart';
 import 'package:flutter/material.dart';
-import 'package:bmi_calculator/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
@@ -34,25 +35,12 @@ class _LoginPageState extends State<LoginPage> {
                       width: 200,
                       height: 100,
                     ),
-                    const TextField(
-                      textAlign: TextAlign.start,
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(12, 8, 12, 8),
-                          hintText: "Email",
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(3)))),
-                    ),
+                    MyTextfield(
+                        hintText: "Email", controller: TextEditingController()),
                     const SizedBox(height: 10),
-                    const TextField(
-                      textAlign: TextAlign.start,
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(12, 8, 12, 8),
-                          hintText: "Password",
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(3)))),
-                      style: TextStyle(),
+                    MyTextfield(
+                      hintText: "Password",
+                      controller: TextEditingController(),
                     ),
                     const SizedBox(height: 10),
                     const Text("Forget Password",

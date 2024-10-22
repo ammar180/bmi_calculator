@@ -1,27 +1,18 @@
-import 'package:bmi_calculator/backend.dart';
-import 'package:bmi_calculator/result_page.dart';
+import 'package:bmi_calculator_provider/providers/bmi_provider.dart';
+import 'package:bmi_calculator_provider/result_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class BmiPage extends StatefulWidget {
+class BmiPage extends StatelessWidget {
   const BmiPage({super.key, required this.title});
   final String title;
 
   @override
-  State<BmiPage> createState() => _BmiPageState();
-}
-
-class _BmiPageState extends State<BmiPage> {
-  // app setting
-  bool isMale = true;
-  int sliderValue = 100;
-  int weightValue = 60;
-  int ageValue = 17;
-
-  @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<BmiProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: const Text("Bmi Calculator"),
         ),
         body: Container(
           height: 1000,
@@ -35,12 +26,13 @@ class _BmiPageState extends State<BmiPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: () => setState(() => isMale = true),
+                    onTap: prov.tapMale,
                     child: Container(
                       width: 150,
                       height: 170,
                       decoration: BoxDecoration(
-                          color: isMale ? Colors.grey.shade700 : Colors.grey,
+                          color:
+                              prov.isMale ? Colors.grey.shade700 : Colors.grey,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10))),
                       child: Column(
@@ -62,15 +54,15 @@ class _BmiPageState extends State<BmiPage> {
                   ),
                   const SizedBox(width: 10),
                   InkWell(
-                    onTap: () => setState(() => isMale = false),
+                    onTap: prov.tapFemale,
                     child: Container(
                       width: 150,
                       height: 170,
                       decoration: BoxDecoration(
-                          color: !isMale ? Colors.grey.shade700 : Colors.grey,
+                          color:
+                              !prov.isMale ? Colors.grey.shade700 : Colors.grey,
                           borderRadius:
-                              const BorderRadius.all(Radius
-                              .circular(10))),
+                              const BorderRadius.all(Radius.circular(10))),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -102,15 +94,14 @@ class _BmiPageState extends State<BmiPage> {
                   children: [
                     Text("HEIGHT",
                         style: Theme.of(context).textTheme.bodyLarge),
-                    Text(sliderValue.toString(),
+                    Text(prov.sliderValue.toString(),
                         style:
                             const TextStyle(fontSize: 36, color: Colors.white)),
                     Slider(
-                      value: sliderValue.toDouble(),
+                      value: prov.sliderValue.toDouble(),
                       min: 50,
                       max: 250,
-                      onChanged: (value) =>
-                          setState(() => sliderValue = value.toInt()),
+                      onChanged: (value) => prov.sliderChange(value.toInt()),
                     ),
                   ],
                 ),
@@ -131,14 +122,14 @@ class _BmiPageState extends State<BmiPage> {
                         "WEIGHT",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      Text(weightValue.toString(),
+                      Text(prov.weightValue.toString(),
                           style: const TextStyle(
                               fontSize: 36, color: Colors.white)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
-                            onPressed: () => setState(() => weightValue++),
+                            onPressed: prov.incrementWeightValue,
                             icon: const Icon(Icons.add),
                             style: const ButtonStyle(
                                 padding:
@@ -148,7 +139,7 @@ class _BmiPageState extends State<BmiPage> {
                           ),
                           const SizedBox(width: 10),
                           IconButton(
-                            onPressed: () => setState(() => weightValue--),
+                            onPressed: prov.decrementWeightValue,
                             icon: const Icon(Icons.minimize_sharp),
                             style: const ButtonStyle(
                                 padding:
@@ -176,14 +167,14 @@ class _BmiPageState extends State<BmiPage> {
                         "Age",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      Text(ageValue.toString(),
+                      Text(prov.ageValue.toString(),
                           style: const TextStyle(
                               fontSize: 36, color: Colors.white)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
-                            onPressed: () => setState(() => ageValue++),
+                            onPressed: prov.incrementAgeValue,
                             icon: const Icon(Icons.add),
                             style: const ButtonStyle(
                                 padding:
@@ -193,7 +184,7 @@ class _BmiPageState extends State<BmiPage> {
                           ),
                           const SizedBox(width: 10),
                           IconButton(
-                            onPressed: () => setState(() => ageValue--),
+                            onPressed: prov.decrementAgeValue,
                             icon: const Icon(Icons.minimize_sharp),
                             style: const ButtonStyle(
                                 padding:
@@ -217,12 +208,11 @@ class _BmiPageState extends State<BmiPage> {
                           borderRadius: BorderRadius.zero,
                           side: BorderSide.none))),
                   onPressed: () {
+                    prov.calculateResult();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ResultPage(
-                                calcResult: CalculateResult(isMale, sliderValue,
-                                    weightValue, ageValue))));
+                            builder: (context) => const ResultPage()));
                   },
                   child: Text(
                     "CALUCLATE BMI",

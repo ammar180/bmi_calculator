@@ -1,13 +1,14 @@
-import 'package:bmi_calculator/backend.dart';
-import 'package:bmi_calculator/bmi_page.dart';
+import 'package:bmi_calculator_provider/bmi_page.dart';
+import 'package:bmi_calculator_provider/providers/bmi_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ResultPage extends StatelessWidget {
-  final CalculateResult calcResult;
-  const ResultPage({super.key, required this.calcResult});
+  const ResultPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<BmiProvider>(context);
     return Scaffold(
       appBar: AppBar(title: const Text("BMI Calculator")),
       body: Center(
@@ -17,7 +18,7 @@ class ResultPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Your Result",
+              Text("Your prov.result",
                   style: Theme.of(context).textTheme.displayMedium),
               const SizedBox(height: 20),
               Container(
@@ -30,15 +31,15 @@ class ResultPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(calcResult.status,
+                    Text(prov.result.status,
                         style: TextStyle(
-                            color: calcResult.statusColor,
+                            color: prov.result.statusColor,
                             fontSize: 32,
                             fontWeight: FontWeight.bold)),
-                    Text(calcResult.bmi.toStringAsFixed(1),
+                    Text(prov.result.bmi.toStringAsFixed(1),
                         style: Theme.of(context).textTheme.displayLarge),
                     Text(
-                      calcResult.captions,
+                      prov.result.captions,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                           fontSize: 18,
@@ -58,8 +59,7 @@ class ResultPage extends StatelessWidget {
                         onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const BmiPage(title: "BIM"))),
+                                builder: (context) => const BmiPage(title: "BIM"))),
                         child: Text(
                           "RE-CALUCLATE BMI",
                           style: Theme.of(context).textTheme.bodyLarge,
