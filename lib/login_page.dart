@@ -1,6 +1,6 @@
-import 'package:bmi_calculator_provider/bmi_page.dart';
-import 'package:bmi_calculator_provider/componants/my_textfield.dart';
-import 'package:bmi_calculator_provider/signup_page.dart';
+import 'package:bmi_calculator/bmi_page.dart';
+import 'package:bmi_calculator/componants/my_textfield.dart';
+import 'package:bmi_calculator/signup_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
