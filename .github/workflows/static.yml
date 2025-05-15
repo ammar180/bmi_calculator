@@ -2,36 +2,16 @@ name: Deploy Flutter Web to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v1
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+      - uses: bluefireteam/flutter-gh-pages@v9
         with:
-          flutter-version: '3.19.6'
-
-
-      # - name: Enable Flutter Web
-      #   run: flutter config --enable-web
-
-      # - name: Get dependencies
-      #   run: flutter pub get
-
-      # - name: Build Flutter Web
-      #   run: flutter build web --release
-
-      # - name: Remove large assets and NOTICES file
-      #   run: rm -rf build/web/assets/large_files/ build/web/NOTICES
-
-      - name: Deploy to GitHub Pages
-        uses: bluefireteam/flutter-gh-pages@v7
-        with:
-          workingDir: build/web
-          targetBranch: gh-pages
+            compileToWasm: true
+            baseHref: bmi-calculator
