@@ -1,4 +1,4 @@
-name: Deploy Flutter web app to GitHub Pages (removing large assets/NOTICES file)
+name: Deploy Flutter Web to GitHub Pages
 
 on:
   push:
@@ -9,11 +9,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
-      - run: flutter build web --release
-      - run: rm -rf build/web/assets/large_files/ build/web/NOTICES
-      - uses: bluefireteam/flutter-gh-pages@v7
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+
+      - name: Enable Flutter Web
+        run: flutter config --enable-web
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build Flutter Web
+        run: flutter build web --release
+
+      - name: Remove large assets and NOTICES file
+        run: rm -rf build/web/assets/large_files/ build/web/NOTICES
+
+      - name: Deploy to GitHub Pages
+        uses: bluefireteam/flutter-gh-pages@v7
         with:
           workingDir: build/web
           targetBranch: gh-pages
