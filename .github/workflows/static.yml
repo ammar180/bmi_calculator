@@ -31,14 +31,23 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Clean previous builds
+        run: flutter clean
+
       - name: Build Flutter Web
         run: flutter build web --release --base-href "$BASE_HREF"
 
+      - name: Remove large or restricted files
+        run: rm -f build/web/NOTICES || true
+
+      - name: Check build/web content
+        run: ls -la build/web
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        
+
       - name: Upload Pages artifact
-        uses: actions/upload-artifact@v4 
+        uses: actions/upload-artifact@v4
         with:
           name: github-pages
           path: build/web
