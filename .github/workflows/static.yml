@@ -35,7 +35,7 @@ jobs:
         run: flutter build web --release --base-href "$BASE_HREF"
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v2 # This is correct
+        uses: actions/upload-artifact@v4 # This is correct
         with:
           path: build/web
 
