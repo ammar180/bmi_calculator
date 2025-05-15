@@ -1,0 +1,19 @@
+name: Deploy Flutter web app to GitHub Pages (removing large assets/NOTICES file)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+      - run: flutter build web --release
+      - run: rm -rf build/web/assets/large_files/ build/web/NOTICES
+      - uses: bluefireteam/flutter-gh-pages@v7
+        with:
+          workingDir: build/web
+          targetBranch: gh-pages
